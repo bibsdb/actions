@@ -1,5 +1,5 @@
 # Workflow for building and deploying a Jekyll site to GitHub Pages
-name: GitHub Pages
+name: Build and deploy to GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -12,18 +12,28 @@ on:
 
 
 jobs:
-  # Build job
-  build:
+  jekyll:
+    name: Build and deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-          enable_jekyll: true
+        - name: Checkout 🛎
+          uses: actions/checkout@v3
+
+        - name: Set up Ruby 💎
+          uses: ruby/setup-ruby@v1
+          with:
+            ruby-version: 2.7
+
+        - name: Install dependencies and build site 🔨
+          uses: limjh16/jekyll-action-ts@v2
+          with:
+            enable_cache: true
+
+        - name: Deploy to GH Pages 🚀
+          if: ${{ github.event_name != 'pull_request' }}
+          uses: peaceiris/actions-gh-pages@v3
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: _site
 
  
