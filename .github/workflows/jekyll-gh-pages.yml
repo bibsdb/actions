@@ -16,20 +16,20 @@ jobs:
     name: Build and deploy
     runs-on: ubuntu-latest
     steps:
-        - name: Checkout 🛎
+        - name: Checkout
           uses: actions/checkout@v3
 
-        - name: Set up Ruby 💎
+        - name: Set up Ruby
           uses: ruby/setup-ruby@v1
           with:
             ruby-version: 2.7
 
-        - name: Install dependencies and build site 🔨
+        - name: Install dependencies and build site
           uses: limjh16/jekyll-action-ts@v2
           with:
             enable_cache: true
 
-        - name: Deploy to GH Pages 🚀
+        - name: Deploy to GH Pages
           if: ${{ github.event_name != 'pull_request' }}
           uses: peaceiris/actions-gh-pages@v3
           with:
